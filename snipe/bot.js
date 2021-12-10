@@ -3,7 +3,7 @@ const required_Items = require('./cfg.json');
 
 const addresses = {
     WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
-    router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+    R_router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
     factory: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
     me: "0x328f9A19627FC376c95A852622798F5Ce2f43367"
 }
@@ -19,9 +19,9 @@ const factory = new ethers.Contract( //Factory Contract Instance
     required_Items.FactoryABI,
     account
 );
-const router = new ethers.Contract( //Router Contract Instance
-    addresses.router,
-    required_Items.routerABI,
+const R_router = new ethers.Contract( //R_router Contract Instance
+    addresses.R_router,
+    required_Items.R_routerABI,
     account
 );
 
@@ -64,13 +64,13 @@ factory.on("PairCreated", async (token0, token1, addressPair) => { //Pair Creati
         return
     }
     const amountIn = ethers.utils.parseUnits('0.01', 'ether'); //ether is the measurement, not the coin
-    const amountsOut = await router.getAmountsOut(amountIn, [InputToken, outputToken]);
+    const amountsOut = await R_router.getAmountsOut(amountIn, [InputToken, outputToken]);
 
     const amountOutMin = amountsOut[1]
         .mul(ethers.utils.parseUnits("20", 'ether'))
         .div(ethers.utils.parseUnits("100", 'ether')); // math for Big numbers in JS
     console.log(amountIn.toString(), amountOutMin.toString())
-    // const approve = await erc20.approve(router.address, amountIn);
+    // const approve = await erc20.approve(R_router.address, amountIn);
     // console.log("Approval:", approve)
 
         console.log(`
@@ -80,7 +80,7 @@ factory.on("PairCreated", async (token0, token1, addressPair) => { //Pair Creati
     InputToken: ${amountIn.toString()} ${InputToken} (WETH)
     outputToken: ${amountOutMin.toString()} ${outputToken}
     `);
-    const tx = await router.swapExactTokensForTokens(
+    const tx = await R_router.swapExactTokensForTokens(
         amountIn,
         amountOutMin,
         [InputToken, outputToken],
@@ -92,6 +92,6 @@ factory.on("PairCreated", async (token0, token1, addressPair) => { //Pair Creati
         }
     );
     const receipt = await tx.wait();
-    console.log('Transaction Hash:', tx.hash ,"Recipent:",receipt);
+    console.log('https://rinkeby.etherscan.io', tx.hash);
     }
 )
