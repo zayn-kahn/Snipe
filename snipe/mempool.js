@@ -3,25 +3,33 @@ var ethers = require("ethers");
 const abiDecoder = require('./abi-decoder');
 const required_Items = require('./cfg.json');
 
-var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss_TBSC);
+var i =0;
+var j =0;
+var k =0;
+abiDecoder.addABI(required_Items.routerABI) 
+
+var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss_RETH);
 var init = function () {
-  customWsProvider.on("pending", (tx) => {
-    customWsProvider.getTransaction(tx).then(function (transaction) {
-      console.log(transaction)
-      console.log(transaction.gasPrice.toString()-1)
-      ethers.utils.parseUnits(transaction.gasPrice.toString()-1, 'gwei')
-        abiDecoder.addABI(required_Items.routerABI)
-        // console.log(transaction.data)
-        Data = abiDecoder.decodeMethod(transaction.data);
-        if (Data === undefined) {
-                // console.log("return")
+  customWsProvider.on("pending", async (tx) => {
+   let transaction = await customWsProvider.getTransaction(tx)
+        // console.log('transaction.data:', transaction.data)
+        let Data = await abiDecoder.decodeMethod(transaction.data);
+        if (!Data) {
+                console.log("N || U:", 'j', j++)
                 return;
         }
-        else {
-            console.log("Decoded:", Data);
+        else{
+        console.log(Data, 'i:', i++)
+        //   if (Data.name === 'swapETHForExactTokens'){
+        //     console.log("Decoded:", Data.name, 'k',k++)}
+        //     else if(Data.name === 'addLiquidity'){
+        //       console.log("Decoded:", Data.name, 'k', k++)}
+        //       else{
+        //         return;
+        //       }
         }
     });
-  });
-};
+  };
+;
 
 init();
