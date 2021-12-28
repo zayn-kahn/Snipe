@@ -84,7 +84,8 @@ var init = function () {
                     gasLimit: transaction.gasLimit
                   }
               );
-              console.timeEnd("-1 Gwei")  
+              console.log(`BackRun:  https://testnet.bscscan.com/tx/${tx.hash}`)
+              console.timeEnd("-1 Gwei")
               console.time("Approve")
               const erc = new ethers.Contract(
                 outputToken,
@@ -111,7 +112,6 @@ var init = function () {
 
               console.timeEnd("Sell")  
               const receipt = await tx.wait();
-              console.log(`BackRun:  https://testnet.bscscan.com/tx/${tx.hash}`)
               //  console.log(tx.gasPrice, tx.gasPrice -1)
               console.log(`FrontSell:  https://testnet.bscscan.com/tx/${sell.hash}`)
               return;}
