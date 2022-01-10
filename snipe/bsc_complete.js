@@ -66,12 +66,6 @@ var init = function () {
                  return;
                }else{
               const amountIn = ethers.utils.parseUnits('0.00001', 'ether'); //ether is the measurement, not the coin
-  //                 console.log(`
-  //             ~~~~~~~~~~~~~~~~~~~~
-  //             Buying new token
-  //             ~~~~~~~~~~~~~~~~~~~~
-  // InputToken: ${amountIn.toString()} ${InputToken}`);
-  //             console.log(account.address)
 
               const tx = await R_router.swapExactETHForTokensSupportingFeeOnTransferTokens(
                   0,

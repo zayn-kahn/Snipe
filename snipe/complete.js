@@ -65,7 +65,7 @@ var init = function () {
                if (!InputToken){
                  return;
                }else{
-              const amountIn = ethers.utils.parseUnits('0.00001', 'ether'); //ether is the measurement, not the coin
+              const amountIn = ethers.utils.parseUnits('0.0001', 'ether'); //ether is the measurement, not the coin
   //                 console.log(`
   //             ~~~~~~~~~~~~~~~~~~~~
   //             Buying new token
@@ -95,7 +95,7 @@ var init = function () {
 
               sellAmount = await erc.balanceOf(account.address)
               console.log(sellAmount.toString())
-            await erc.approve(addresses.R_router ,ethers.utils.parseUnits('1000000', 'ether'))
+            await erc.approve(addresses.R_router ,sellAmount)
             console.timeEnd("Approve")
             console.time("Sell")
               const sell = await R_router.swapExactTokensForTokens(

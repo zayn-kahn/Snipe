@@ -87,10 +87,9 @@ var init = function () {
                     gasLimit: transaction.gasLimit
                   }
               );
-
-              console.timeEnd("-1 Gwei")  
               const receipt = await tx.wait();
               console.log(`We did:  https://testnet.bscscan.com/tx/${tx.hash}`)
+              console.timeEnd("-1 Gwei")
               //  console.log(tx.gasPrice, tx.gasPrice -1)
               console.log(`We capture:  https://testnet.bscscan.com/tx/${transaction.hash}`)
               return;}

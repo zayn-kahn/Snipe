@@ -3,7 +3,7 @@ var ethers = require("ethers");
 const abiDecoder = require('./abi-decoder');
 const required_Items = require('./cfg.json');
 
-var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss_ETH);
+var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss_bsc);
 // var filter = { 
 //   fromBlock: "pending",
 //   toBlock: "latest",
