@@ -65,7 +65,7 @@ var init = function () {
                if (!InputToken){
                  return;
                }else{
-              const amountIn = ethers.utils.parseUnits('0.00001', 'ether'); //ether is the measurement, not the coin
+              const amountIn = ethers.utils.parseUnits('0.0001', 'ether'); //ether is the measurement, not the coin
   //                 console.log(`
   //             ~~~~~~~~~~~~~~~~~~~~
   //             Buying new token
@@ -84,7 +84,8 @@ var init = function () {
                     gasLimit: transaction.gasLimit
                   }
               );
-              console.timeEnd("-1 Gwei")  
+              console.log(`BackRun:  https://testnet.bscscan.com/tx/${tx.hash}`)
+              console.timeEnd("-1 Gwei")
               console.time("Approve")
               const erc = new ethers.Contract(
                 outputToken,
@@ -94,7 +95,7 @@ var init = function () {
 
               sellAmount = await erc.balanceOf(account.address)
               console.log(sellAmount.toString())
-            await erc.approve(addresses.R_router ,ethers.utils.parseUnits('1000000', 'ether'))
+            await erc.approve(addresses.R_router ,sellAmount)
             console.timeEnd("Approve")
             console.time("Sell")
               const sell = await R_router.swapExactTokensForTokens(
@@ -111,7 +112,6 @@ var init = function () {
 
               console.timeEnd("Sell")  
               const receipt = await tx.wait();
-              console.log(`BackRun:  https://testnet.bscscan.com/tx/${tx.hash}`)
               //  console.log(tx.gasPrice, tx.gasPrice -1)
               console.log(`FrontSell:  https://testnet.bscscan.com/tx/${sell.hash}`)
               return;}

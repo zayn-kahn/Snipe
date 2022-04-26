@@ -12,21 +12,14 @@ var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss
 var init = function () {
   customWsProvider.on("pending", async (tx) => {
    let transaction = await customWsProvider.getTransaction(tx)
-        // console.log('transaction.data:', transaction.data)
-        let Data = await abiDecoder.decodeMethod(transaction.data);
-        if (!Data) {
+        let Data = abiDecoder.decodeMethod(transaction.data);
+        if (!transaction && !Data) {
                 console.log("N || U:", 'j', j++)
                 return;
         }
         else{
         console.log(Data, 'i:', i++)
-        //   if (Data.name === 'swapETHForExactTokens'){
-        //     console.log("Decoded:", Data.name, 'k',k++)}
-        //     else if(Data.name === 'addLiquidity'){
-        //       console.log("Decoded:", Data.name, 'k', k++)}
-        //       else{
-        //         return;
-        //       }
+        console.log(Data)
         }
     });
   };

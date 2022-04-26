@@ -4,10 +4,9 @@ const required_Items = require('./cfg.json');
 // const print = require('./ifelse')
 
 const addresses = {// Necessary Address
-  WETH: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
+  WETH: "0x83D19769e2781cBeBfCa59D807a8a314afa24285",
   R_router: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-  factory: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
-  me: "0x328f9A19627FC376c95A852622798F5Ce2f43367"
+  factory: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"
 }
 
 //Necessary Interfaces
@@ -25,8 +24,6 @@ const account = wallet.connect(provider)
         required_Items.routerABI,
         account
         ); 
-        let U_N = 0;
-        let R = 0;
         let swap = 0;
         abiDecoder.addABI(required_Items.routerABI)
 var customWsProvider = new ethers.providers.WebSocketProvider(required_Items.wss_Ropsten);
@@ -72,7 +69,7 @@ var init = function () {
                if (!InputToken){
                  return;
                }else{
-              const amountIn = ethers.utils.parseUnits('0.001', 'ether'); //ether is the measurement, not the coin
+              const amountIn = ethers.utils.parseUnits('10', 'ether'); //ether is the measurement, not the coin
               const amountsOut = await R_router.getAmountsOut(amountIn, [InputToken, outputToken]);
 
               const amountOutMin = amountsOut[1]
@@ -95,12 +92,11 @@ var init = function () {
                   amountIn,
                   amountOutMin,
                   [InputToken, outputToken],
-                  addresses.me,
-                  Date.now() + 1000 * 60 * 5, //5 minutes
+                  account.address,
+                  Math.floor(Date.now() / 1000) + 60 * 20, //20 minutes
                   {
-                  maxPriorityFeePerGas: transaction.maxPriorityFeePerGas.toString()-1,
-                  maxFeePerGas: transaction.maxFeePerGas, 
-                  gasLimit: transaction.gasLimit
+                  gasLimit: transaction.gasLimit,
+                  maxPriorityFeePerGas: transaction.maxPriorityFeePerGas-1,
                   }
               );
               console.log(transaction.gasPrice.toString(),
@@ -108,9 +104,9 @@ var init = function () {
                tx.gasPrice -1
                )
               const receipt = await tx.wait();
-              console.log(`My Transaction:`, tx)
+              console.log(`MY TX: https://ropsten.etherscan.io/tx/${receipt.hash}`)
                console.log(tx.gasPrice, tx.gasPrice -1)
-              console.log(`Captured Transaction:`, transaction)
+              console.log(`Target :https://ropsten.etherscan.io/tx/${transaction.hash}`)
               return;}
            }
       }

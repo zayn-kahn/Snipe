@@ -10,7 +10,7 @@ const addresses = {
 
 const mnemonic = required_Items.mnemonic;
 
-const provider = new ethers.providers.JsonRpcProvider(required_Items.http_RETH)
+const provider = new ethers.providers.JsonRpcProvider(required_Items.wss_TBSC)
 const wallet = ethers.Wallet.fromMnemonic(mnemonic);
 const account = wallet.connect(provider)
 // console.log("Accounts check",account, addresses.me)
@@ -40,9 +40,12 @@ factory.on("PairCreated", async (token0, token1, addressPair) => { //Pair Creati
     token1: ${token1}
     addressPair: ${addressPair}
     `);
-
+console.log(`https://testnet.bscscan.com/token/${token0}`)
+console.log(`https://testnet.bscscan.com/token/${token1}`)
+console.log(`https://testnet.bscscan.com/token/${addressPair}`)
     // This block ensures we pay with WETH
     let InputToken, outputToken;
+    return
     if(token0 === addresses.WETH) {
         InputToken = token0;
         outputToken = token1;
